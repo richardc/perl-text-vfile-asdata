@@ -112,7 +112,7 @@ sub generate_lines {
     my $this = shift;
 
     my @lines;
-    # XXX all the existence checks are to prevent auto-vivifaction
+    # XXX all the existence checks are to prevent auto-vivification
     # breaking if_diff tests - do we mind, or should the fields have been
     # there anyway?
 
