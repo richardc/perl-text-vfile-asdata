@@ -96,11 +96,9 @@ sub parse_lines {
 
         $value = { value => $value };
 
-        if (@params) {
-            foreach my $param (@params) {
-                my ($p_name, $p_value) = split /=/, $param;
-                $value->{param}{ $p_name } = $p_value;
-            }
+        foreach my $param (@params) {
+            my ($p_name, $p_value) = split /=/, $param;
+            $value->{param}{ $p_name } = $p_value;
         }
         push @{ $current->{properties}{ $name } }, $value;
     }
