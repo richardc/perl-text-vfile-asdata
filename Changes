@@ -1,0 +1,13 @@
+head
+	Added examples/holidays_ical
+
+	Added examples/wgo
+
+	Fixed module name in examples/v2yaml
+
+	Deleted the Encode cargo.  Checking for a BOM on each and
+	every line is batshit.
+
+0.01	Thursday 19th February, 2003
+	Initial CPAN release
+
