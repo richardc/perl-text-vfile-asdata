@@ -4,9 +4,9 @@ Makefile.PL
 Build.PL
 MANIFEST
 MANIFEST.SKIP
-examples/holidays_ical
-examples/v2yaml
-examples/wgo
+bin/holidays_ical
+bin/v2yaml
+bin/wgo
 examples/Text-vCard/README
 examples/Text-vCard/evolution.vcf
 examples/Text-vCard/full_card_v2_1.vcf
@@ -16,7 +16,7 @@ examples/Text-vCard/simple.vcf
 examples/Text-vFile/02_simple.dat
 examples/Text-vFile/03_multi.dat
 examples/Text-vFile/README
-examples/rfc2445-objects/4.4-calender-1.ics
+examples/rfc2445-objects/4.4-calendar-1.ics
 examples/rfc2445-objects/4.6.1-event-1.ics
 examples/rfc2445-objects/4.6.1-event-2.ics
 examples/rfc2445-objects/4.6.1-event-3.ics
