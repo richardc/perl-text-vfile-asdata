@@ -16,7 +16,7 @@ sub wanted {
 }
 
 my $class = 'Text::vFile::asData';
-plan tests => 1 + scalar @samples * 3;
+plan tests => 1 + scalar @samples * 6;
 
 if (eval "require Test::Differences; 1") {
     no warnings 'redefine';
@@ -25,12 +25,17 @@ if (eval "require Test::Differences; 1") {
 
 require_ok( $class );
 
-foreach my $file (@samples) {
-    my $parsed = $class->new->parse( IO::File->new($file) );
-    ok( $parsed, "parsed $file" );
-    my @generated = $class->new->generate_lines( $parsed );
-    ok( scalar @generated, "generated vCal" );
-    is_deeply( $parsed, $class->new->parse_lines( @generated ),
-               "and it round tripped")
-      or print "# generated:\n", map { "# $_\n" } @generated;
+for my $preserve (0, 1) {
+    diag "preservation is " . ($preserve ? "on" : "off");
+    foreach my $file (@samples) {
+        my $parsed = $class->new->preserve_params( $preserve )
+          ->parse( IO::File->new($file) );
+        ok( $parsed, "parsed $file" );
+        my @generated = $class->new->generate_lines( $parsed );
+        ok( scalar @generated, "generated vCal" );
+        is_deeply( $parsed, $class->new->preserve_params( $preserve )
+                     ->parse_lines( @generated ),
+                   "and it round tripped")
+          or print "# generated:\n", map { "# $_\n" } @generated;
+    }
 }

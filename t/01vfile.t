@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 13;
+use Test::More tests => 15;
 
 if (eval "require Test::Differences") {
     no warnings 'redefine';
@@ -55,27 +55,27 @@ is_deeply( $p->parse_lines( "CHECK:one,two" ),
           );
 
 is_deeply( $p->parse_lines( "CHECK;testing=one:two" ),
-	   {
-	    properties => {
-			   CHECK => [ { value => 'two',
-					param => { testing => 'one' }
-				      } ],
-			   },
-	    },
-	   "a single parameter"
-	 );
+           {
+            properties => {
+                           CHECK => [ { value => 'two',
+                                        param => { testing => 'one' }
+                                      } ],
+                           },
+            },
+           "a single parameter"
+         );
 
 is_deeply( $p->parse_lines( "CHECK;testing1=one;testing2=two:ffff" ),
-	   {
-	    properties => {
-			   CHECK => [ { value => 'ffff',
-					param => { testing1 => 'one',
-						   testing2 => 'two', }
-						 } ],
-				 },
-			  },
-	    "multiple parameters"
-	   );
+           {
+            properties => {
+                           CHECK => [ { value => 'ffff',
+                                        param => { testing1 => 'one',
+                                                   testing2 => 'two', }
+                                                 } ],
+                                 },
+                          },
+            "multiple parameters"
+           );
 
 is_deeply( $p->parse_lines(
     "BEGIN:PIE",
@@ -175,3 +175,41 @@ is_deeply( $p->parse_lines(
                },
            },
            "quoted params" );
+
+
+# Leo's corner case; you will sometimes have two params with the same
+# names (pesky vCards)
+is_deeply( $p->parse_lines( 'FOO;corner=fruit;corner=case:BAZ' ),
+           {
+               properties => {
+                   FOO => [
+                       {
+                           param  => {
+                               corner => 'case',
+                           },
+                           value => 'BAZ',
+                       },
+                      ],
+               },
+           },
+           "collapsing params" );
+
+$p->preserve_params( 1 );
+is_deeply( $p->parse_lines( 'FOO;corner=fruit;corner=case:BAZ' ),
+           {
+               properties => {
+                   FOO => [
+                       {
+                           param  => {
+                               corner => 'case',
+                           },
+                           params => [
+                               { corner => 'fruit' },
+                               { corner => 'case' },
+                              ],
+                           value => 'BAZ',
+                       },
+                      ],
+               },
+           },
+           "collapsing and non-collapsing params" );

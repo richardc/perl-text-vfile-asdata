@@ -1,12 +1,20 @@
-head
-	Added examples/holidays_ical
+0.02	Wednesday 6th October, 2004
 
-	Added examples/wgo
+	Moved non-vFile files from examples/ to bin/ as it was mightily
+	confusing the round-trip test.
 
-	Fixed module name in examples/v2yaml
+	Added bin/holidays_ical
+
+	Added bin/wgo
+
+	Fixed module name in bin/v2yaml
 
 	Deleted the Encode cargo.  Checking for a BOM on each and
 	every line is batshit.
+
+	Added ->preserve_params option to create a new structure which
+	preserves the order of the params.
+
 
 0.01	Thursday 19th February, 2003
 	Initial CPAN release

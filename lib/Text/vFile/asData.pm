@@ -3,7 +3,9 @@ use strict;
 use warnings;
 no warnings 'uninitialized';
 use Text::ParseWords qw( parse_line );
-our $VERSION = '0.01';
+use base qw( Class::Accessor::Chained::Fast );
+__PACKAGE__->mk_accessors(qw( preserve_params ));
+our $VERSION = '0.02';
 
 =head1 NAME
 
@@ -22,11 +24,6 @@ Text::vFile::asData reads vFile format files, such as vCard (RFC 2426) and
 vCalendar (RFC 2445).
 
 =cut
-
-sub new {
-    my $class = shift;
-    return bless {}, ref $class || $class;
-}
 
 sub _lines_from_fh {
     my $self = shift;
@@ -98,6 +95,8 @@ sub parse_lines {
 
         foreach my $param (@params) {
             my ($p_name, $p_value) = split /=/, $param;
+            push @{ $value->{params} }, { $p_name => $p_value }
+              if $self->preserve_params;
             $value->{param}{ $p_name } = $p_value;
         }
         push @{ $current->{properties}{ $name } }, $value;
@@ -120,13 +119,15 @@ sub generate_lines {
     if (exists $this->{properties}) {
         while (my ($name, $v) = each %{ $this->{properties} } ) {
             for my $value (@$v) {
-                my $param = '';
-                if ($value->{param}) {
-                    $param = join ';', '', map {
-                        "$_" . (defined $value->{param}{$_}
-                                  ?  "=" . $value->{param}{$_} : "")
-                    } keys %{ $value->{param} };
-                }
+                # XXX so we're taking params in preference to param,
+                # let's be sure to document that when we document this
+                # method
+                my $param = join ';', '', map {
+                    my $hash = $_;
+                    map {
+                        "$_" . (defined $hash->{$_} ?  "=" . $hash->{$_} : "")
+                    } keys %$hash
+                } @{ $value->{params} || [ $value->{param} ] };
                 push @lines, "$name$param:$value->{value}";
             }
         }
@@ -197,9 +198,13 @@ Each entry in the array ref is a hash ref with one or two keys.
 
 The first key, C<value>, corresponds to the property's value.
 
-The second key, C<param>, contains a hash ref of the property's parameters.
-Keys in this hash ref are the parameter's name, the value is the parameter's
-value.
+The second key, C<param>, contains a hash ref of the property's
+parameters.  Keys in this hash ref are the parameter's name, the value
+is the parameter's value.  (If you enable the C<preserve_params>
+option there is an additional key populated, called C<params>.  It is
+an array ref of hash refs, each hash ref is the parameter's name and
+the parameter's value - these are collected in the order they are encountered to prevent hash collisions as seen in some vCard files)
+line.)
 
 The third key in the top level C<objects> hash ref is C<objects>.  If
 it exists, it indicates that sub-objects were found.  The value of
@@ -208,7 +213,7 @@ behaviour to that of the top level C<objects> key.  This recursive
 structure continues, nesting as deeply as there were sub-objects in
 the input file.
 
-The C<examples/v2yaml> script that comes with this distribution displays the
+The C<bin/v2yaml> script that comes with this distribution displays the
 format of a vFile as YAML.  C<t/03usage.t> has examples of picking out
 the relevant information from the data structure.
 
