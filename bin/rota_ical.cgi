@@ -48,7 +48,7 @@ sub make_event {
 my $cal = {
     type => 'VCALENDAR',
     properties => {
-        'X-WR-CALNAME' => [ { value => "Fotango Holidays" } ],
+        'X-WR-CALNAME' => [ { value => "Systems Rota" } ],
     },
     objects => [],
 };
