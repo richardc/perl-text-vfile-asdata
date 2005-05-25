@@ -1,3 +1,6 @@
+HEAD
+	Moved CRLF removing logic down a bit lower into _unwrap_lines.
+
 0.02	Wednesday 6th October, 2004
 
 	Moved non-vFile files from examples/ to bin/ as it was mightily

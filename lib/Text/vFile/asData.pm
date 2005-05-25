@@ -25,17 +25,11 @@ vCalendar (RFC 2445).
 
 =cut
 
-sub _lines_from_fh {
-    my $self = shift;
-    my $fh = shift;
-
-    return map { chomp; s/\r$//; $_ } <$fh>;
-}
-
 sub _unwrap_lines {
     my $self = shift;
     my @lines;
     for (@_) {
+        s{[\r\n]+$}{}; # lines SHOULD end CRLF
         if (/^\s(.*)/) { # Continuation line (RFC Sect. 4.1)
             die "Continuation line, but no preceding line" unless @lines;
             $lines[-1] .= $1;
@@ -49,7 +43,7 @@ sub _unwrap_lines {
 sub parse {
     my $self = shift;
     my $fh = shift;
-    return $self->parse_lines( $self->_lines_from_fh( $fh ) );
+    return $self->parse_lines( <$fh> );
 }
 
 sub parse_lines {
