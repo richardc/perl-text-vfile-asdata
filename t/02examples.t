@@ -36,6 +36,10 @@ for my $preserve (0, 1) {
         is_deeply( $parsed, $class->new->preserve_params( $preserve )
                      ->parse_lines( @generated ),
                    "and it round tripped")
-          or print "# generated:\n", map { "# $_\n" } @generated;
+          or do {
+              print "# generated:\n", map { "# $_\n" } @generated;
+              my $fh = IO::File->new( $file );
+              print "# from:\n", map { "# $_" } <$fh>;
+          };
     }
 }
