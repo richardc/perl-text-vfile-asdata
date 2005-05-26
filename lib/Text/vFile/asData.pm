@@ -102,14 +102,15 @@ sub parse_lines {
         # input.  Not sure about completely blank lines within the input
         next if scalar @path == 0 and $_ =~ /^\s*$/;
 
-        if (/^BEGIN:(.*)/) {
+        if (/^BEGIN:(.*)/i) {
             push @path, $current;
             $current = { type => $1 };
             push @{ $path[-1]{objects} }, $current;
             next;
         }
-        if (/^END:(.*)/) {
-            die "END $1 in $current->{type}" unless $current->{type} eq $1;
+        if (/^END:(.*)/i) {
+            die "END $1 in $current->{type}"
+              unless lc $current->{type} eq lc $1;
             $current = pop @path;
             next;
         }
@@ -130,6 +131,11 @@ sub parse_lines {
         }
         push @{ $current->{properties}{ $name } }, $value;
     }
+
+    # something did a BEGIN but no END - TODO, unwind this nicely as
+    # it may be more than one level
+    die "BEGIN $current->{type} without matching END"
+      if @path;
 
     return $current;
 }
@@ -232,7 +238,8 @@ parameters.  Keys in this hash ref are the parameter's name, the value
 is the parameter's value.  (If you enable the C<preserve_params>
 option there is an additional key populated, called C<params>.  It is
 an array ref of hash refs, each hash ref is the parameter's name and
-the parameter's value - these are collected in the order they are encountered to prevent hash collisions as seen in some vCard files)
+the parameter's value - these are collected in the order they are
+encountered to prevent hash collisions as seen in some vCard files)
 line.)
 
 The third key in the top level C<objects> hash ref is C<objects>.  If

@@ -2,6 +2,13 @@ HEAD
 	Removed the paragraph about rt.cpan.org from the docs as it's just
 	not fitting the way I want to deal with stuff.
 
+	Make the parsing of blocks case-insenitive as the RFCs call for
+	(they just happen to always use upper-case identifiers)
+	Closes #12381 (JC with some modifications)
+	Also uncovered a bunch of other block-related bugs.
+
+	Will now die if a BEGIN occurs without a matching END
+
 
 0.03	Thursday 26th May, 2005
 

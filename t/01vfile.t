@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 18;
+use Test::More tests => 21;
 
 if (eval "require Test::Differences") {
     no warnings 'redefine';
@@ -123,6 +123,37 @@ is_deeply( $p->parse_lines(
            },
            "nest two"
           );
+
+eval {
+    $p->parse_lines(
+        "BEGIN:PIE",
+        "FILLING:MEAT",
+        "END:FUN",
+       );
+};
+
+like( $@, qr/^END FUN in PIE/, "nest failure" );
+
+eval {
+    $p->parse_lines(
+        "BEGIN:PIE",
+        "FILLING:MEAT",
+       );
+};
+
+like( $@, qr/^BEGIN PIE without matching END/, "still nested nest failure" );
+
+# rt #12381
+eval {
+    $p->parse_lines(
+        "BEGIN:PIE",
+        "FILLING:MEAT",
+        "end:Pie",
+       );
+};
+
+is( $@, "", "case-insensitive nesting" );
+
 
 is_deeply( $p->parse_lines(
     "FOO;BAR=BAZ;QUUX=FLANGE:FROOBLE" ),
