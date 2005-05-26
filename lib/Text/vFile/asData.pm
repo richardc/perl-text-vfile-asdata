@@ -118,6 +118,7 @@ sub parse_lines {
 
         # we'd use Text::ParseWords here, but it likes to segfault.
         my ($name, $value) = parse_line( ':', 1, $_, 2);
+        $value = '' unless defined $value;
         my @params = parse_line( ';', 0, $name );
         $name = shift @params;
 
