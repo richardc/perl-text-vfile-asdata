@@ -4,6 +4,7 @@ Makefile.PL
 Build.PL
 MANIFEST
 MANIFEST.SKIP
+bin/rota_ical.cgi
 bin/holidays_ical
 bin/v2yaml
 bin/wgo
@@ -39,3 +40,5 @@ t/01vfile.t
 t/02examples.t
 t/03usage.t
 t/pod.t
+t/parse_line.t
+t/user_with_image.vcf
