@@ -90,6 +90,7 @@ sub parse_line {
         }
         $escaped = 0;
     }
+
     return @parts, $current;
 }
 
