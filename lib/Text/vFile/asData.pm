@@ -140,7 +140,7 @@ sub parse_lines {
     return $current;
 }
 
-# this might not strictly comply, certainly it doesn't wrap.
+# this might not strictly comply
 sub generate_lines {
     my $self = shift;
     my $this = shift;
@@ -163,7 +163,11 @@ sub generate_lines {
                         "$_" . (defined $hash->{$_} ?  "=" . $hash->{$_} : "")
                     } keys %$hash
                 } @{ $value->{params} || [ $value->{param} ] };
-                push @lines, "$name$param:$value->{value}";
+                my $line = "$name$param:$value->{value}";
+                # wrapping, but done ugly
+                my @chunks = $line =~ m/(.{1,72})/g;
+                push @lines, shift @chunks;
+                push @lines, map { " $_" } @chunks;
             }
         }
     }
