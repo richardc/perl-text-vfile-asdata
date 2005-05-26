@@ -1,7 +1,10 @@
-HEAD
+0.03	Thursday 26th May, 2005
+
 	Moved CRLF removing logic down a bit lower into _unwrap_lines.
+
 	Elminate Text::ParseWords by writing our own more C-like version,
 	fixes the vCard image segfault issue.
+
 
 0.02	Wednesday 6th October, 2004
 
