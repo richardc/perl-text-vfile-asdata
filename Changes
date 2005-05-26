@@ -9,6 +9,12 @@ HEAD
 
 	Will now die if a BEGIN occurs without a matching END
 
+	generate_lines now wraps
+
+	Tightened the logic for unfolding.  The RFC states the folding
+	sequence is exactly \r\n[ \t], where before we were looking
+	for \r\n\s.  Since \s can match unicode whitespace this was wrong.
+
 
 0.03	Thursday 26th May, 2005
 
