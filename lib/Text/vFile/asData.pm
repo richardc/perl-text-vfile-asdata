@@ -286,9 +286,6 @@ C<\,>, we're still undecided as to whether this is a bug.
 
 Aside from the TODO list items, none known.
 
-Bugs should be reported to me via the CPAN RT system.
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Text::vFile::asData>.
-
 =head1 SEE ALSO
 
 Text::vFile - parses to objects, doesn't handle nested items
