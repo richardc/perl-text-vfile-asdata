@@ -30,7 +30,7 @@ sub _unwrap_lines {
     for (@_) {
         my $line = $_; # $_ may be readonly
         $line =~ s{[\r\n]+$}{}; # lines SHOULD end CRLF
-        if ($line =~ /^\s(.*)/) { # Continuation line (RFC Sect. 4.1)
+        if ($line =~ /^[ \t](.*)/) { # Continuation line (RFC Sect. 4.1)
             die "Continuation line, but no preceding line" unless @lines;
             $lines[-1] .= $1;
             next;
