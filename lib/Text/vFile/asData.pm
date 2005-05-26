@@ -56,7 +56,7 @@ sub parse {
 sub parse_line {
     my ($delim, $keep, $text, $limit) = @_;
 
-    my ($current, @parts) = '';
+    my ($current, @parts);
     my ($quote, $escaped);
     while (length $text) {
         if ($text =~ s{^(\\)}{}) {
@@ -66,7 +66,7 @@ sub parse_line {
         }
         if (!$quote && !$escaped && $text =~ s{^$delim}{}) {
             push @parts, $current;
-            $current = '';
+            $current = undef;
             if (defined $limit && @parts == $limit -1) {
                 return @parts, $text;
             }
