@@ -76,12 +76,10 @@ sub parse_line {
             $text =~ s{(.)}{};
             my $char = $1;
             if ($char =~ m{['"]} && !$escaped) {
-                if (defined $quote && $char eq $quote) {
-                    undef $quote;
-                }
-                else {
-                    $quote = $char;
-                }
+                # either it's defined and matches, in which case we
+                # clear the quote variable, or it's undefined which
+                # makes this quote an opening quote
+                $quote = (defined $quote && $char eq $quote) ? undef : $char;
                 $current .= $char if $keep;
             }
             else {
