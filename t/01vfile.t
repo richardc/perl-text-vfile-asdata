@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 18;
 
 if (eval "require Test::Differences") {
     no warnings 'redefine';
@@ -177,6 +177,23 @@ is_deeply( $p->parse_lines(
            "quoted params" );
 
 
+is_deeply( $p->parse_lines(
+    'FOO;BAR="BAZ was here";QUUX="FLANGE wants the colon: ":FROOBLE: NINJA' ),
+           {
+               properties => {
+                   FOO => [
+                       {
+                           param => {
+                               BAR  => 'BAZ was here',
+                               QUUX => 'FLANGE wants the colon: ',
+                           },
+                           value => 'FROOBLE: NINJA',
+                       },
+                      ],
+               },
+           },
+           "quoted params colon in the value" );
+
 # Leo's corner case; you will sometimes have two params with the same
 # names (pesky vCards)
 is_deeply( $p->parse_lines( 'FOO;corner=fruit;corner=case:BAZ' ),
@@ -213,3 +230,13 @@ is_deeply( $p->parse_lines( 'FOO;corner=fruit;corner=case:BAZ' ),
                },
            },
            "collapsing and non-collapsing params" );
+
+# Another one via Leo, parsing vCards with embedded images leads to segfaulty
+# death - probably just because we try and tokenize 49k of data with a simple
+# regex
+open my $fh, "t/user_with_image.vcf" or die "couldn't open test card";
+my $data = $p->parse( $fh );
+ok( 1, "didn't segfault on parsing an embedded image" );
+is_deeply( [ sort keys %{ $data->{objects}[0]{properties}{PHOTO} } ],
+           [qw( param params value )],
+           "Looks like we handled the vcard too");
