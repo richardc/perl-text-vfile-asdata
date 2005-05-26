@@ -237,6 +237,5 @@ is_deeply( $p->parse_lines( 'FOO;corner=fruit;corner=case:BAZ' ),
 open my $fh, "t/user_with_image.vcf" or die "couldn't open test card";
 my $data = $p->parse( $fh );
 ok( 1, "didn't segfault on parsing an embedded image" );
-is_deeply( [ sort keys %{ $data->{objects}[0]{properties}{PHOTO} } ],
-           [qw( param params value )],
-           "Looks like we handled the vcard too");
+ok( exists $data->{objects}[0]{properties}{PHOTO}[0]{param}{BASE64},
+    "Looks like we handled the vcard too" );
