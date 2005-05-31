@@ -1,4 +1,5 @@
-HEAD
+0.04	Tuesday 31st May, 2005
+
 	Removed the paragraph about rt.cpan.org from the docs as it's just
 	not fitting the way I want to deal with stuff.
 
