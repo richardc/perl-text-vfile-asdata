@@ -31,7 +31,7 @@ sub make_event {
     return {
         type => 'VEVENT',
         properties => {
-            SUMMARY => [ { value => $who } ],
+            SUMMARY => [ { value => "$who on call" } ],
             DESCRIPTION => [ { value => "$when $who" } ],
             DTSTART => [ { value => $start->ymd(''),
                            param => { VALUE => 'DATE' },
