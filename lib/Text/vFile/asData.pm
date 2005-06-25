@@ -4,7 +4,7 @@ use warnings;
 no warnings 'uninitialized';
 use base qw( Class::Accessor::Chained::Fast );
 __PACKAGE__->mk_accessors(qw( preserve_params ));
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 
