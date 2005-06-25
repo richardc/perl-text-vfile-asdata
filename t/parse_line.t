@@ -3,7 +3,6 @@ use strict;
 use Test::More tests => 8;
 use Text::ParseWords ();
 use Text::vFile::asData ();
-use YAML;
 
 
 if (eval "require Test::Differences") {
