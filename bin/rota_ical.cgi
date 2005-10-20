@@ -17,7 +17,8 @@ rota_ical.cgi - scrape the SystemsSupportRota wiki page into ics
 
 =cut
 
-sub make_event {
+my @tasks;
+sub make_events {
     my $when = shift;
     my $who  = shift;
 
@@ -28,21 +29,25 @@ sub make_event {
     my $start = DateTime->new( year => $year, month => $month, day  => $day );
     my $end   = $start->clone->add( days => 1 );
 
-    return {
+    my %who;
+    @who{ @tasks } = split /\|/, $who;
+
+
+    return map +{
         type => 'VEVENT',
         properties => {
-            SUMMARY => [ { value => "$who on call" } ],
-            DESCRIPTION => [ { value => "$when $who" } ],
+            SUMMARY => [ { value => "$who{$_} $_" } ],
+            DESCRIPTION => [ { value => "$when $who{$_} $_" } ],
             DTSTART => [ { value => $start->ymd(''),
                            param => { VALUE => 'DATE' },
                        } ],
             DTEND   => [ { value => $end->ymd(''),
                            param => { VALUE => 'DATE' },
                        } ],
-            UID     => [ { value => md5_hex( "$when $who" ),
+            UID     => [ { value => md5_hex( "$when $who{$_} $_" ),
                        } ],
         },
-    };
+    }, grep { $who{$_} } @tasks;
 }
 
 my $cal = {
@@ -52,10 +57,16 @@ my $cal = {
     },
     objects => [],
 };
+
+
 for (read_file( $file )) {
+    chomp;
     next if /^\s*$/;
-    /^\|(.*?)\|(.*)\|/ and do {
-        push @{ $cal->{objects} }, make_event( $1, $2 );
+    /^\| Date \|/ and do {
+        (undef, @tasks) = split / \| ?/;
+    };
+    /^\|(.*?)\|(.*)/ and do {
+        push @{ $cal->{objects} }, make_events( $1, $2 );
         next;
     };
     # warn "unhandled line: $_";
