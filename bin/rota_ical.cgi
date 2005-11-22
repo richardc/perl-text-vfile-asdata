@@ -47,7 +47,7 @@ sub make_events {
             UID     => [ { value => md5_hex( "$when $who{$_} $_" ),
                        } ],
         },
-    }, grep { $who{$_} } @tasks;
+    }, sort grep { $who{$_} } @tasks;
 }
 
 my $cal = {
