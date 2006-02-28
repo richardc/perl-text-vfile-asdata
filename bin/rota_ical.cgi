@@ -7,7 +7,7 @@ use Digest::MD5 qw(md5_hex);
 use DateTime;
 use CGI;
 
-my $file = -e 'SystemsSupportRota' ? 'SystemsSupportRota' : '/usr/local/apache/htdocs/intranet/database/SystemsSupportRota';
+my $file = -e 'SystemsSupportRota' ? 'SystemsSupportRota' : 'http://intranet.fotango.private/index.php?title=Systems_Support_Rota&action=raw';
 
 =head1 NAME
 
@@ -20,7 +20,8 @@ rota_ical.cgi - scrape the SystemsSupportRota wiki page into ics
 my @tasks;
 sub make_events {
     my $when = shift;
-    my $who  = shift;
+    my %who;
+    @who{ @tasks } = @_;
 
     my $year = DateTime->now->year;
     return unless $when =~ m{(\d+)\s*/\s*(\d+)};
@@ -28,10 +29,6 @@ sub make_events {
 
     my $start = DateTime->new( year => $year, month => $month, day  => $day );
     my $end   = $start->clone->add( days => 1 );
-
-    my %who;
-    @who{ @tasks } = split /\|/, $who;
-
 
     return map +{
         type => 'VEVENT',
@@ -58,18 +55,45 @@ my $cal = {
     objects => [],
 };
 
+# sometimes, we want to use a url so wrap read_file as get_lines
+sub get_lines {
+    my $file = shift;
+    if ($file =~ m{^https?://}) {
+        # s'really a url
+        require LWP::Simple;
+        my $content = LWP::Simple::get( $file );
+        return split $/, $content;
+    }
+    return read_file( $file );
+}
 
-for (read_file( $file )) {
-    chomp;
-    next if /^\s*$/;
-    /^\| Date \|/ and do {
-        (undef, @tasks) = split / \| ?/;
-    };
-    /^\|(.*?)\|(.*)/ and do {
-        push @{ $cal->{objects} }, make_events( $1, $2 );
+sub parse_tables {
+    my (@rows, @row, $in_table);
+    for (@_) {
+        chomp;
+        /^{\|/ and do { $in_table = 1; next };
+        /^\|}/ and do { $in_table = 0; next };
+        next unless $in_table;
+        /^\|- / and do {
+            push @rows, [@row] if @row;
+            @row = ();
+            next;
+        };
+        /^\| (.*)/ and do {
+            push @row, $1;
+            next;
+        };
+        print "Didn't expect: $_\n";
+    }
+    return @rows, (@row ? [@row] : ());
+}
+
+for (parse_tables( get_lines( $file ) )) {
+    $_->[0] =~ /Date/ and do {
+        (undef, @tasks) = @$_;
         next;
     };
-    # warn "unhandled line: $_";
+    push @{ $cal->{objects} }, make_events( @$_ );
 }
 
 print CGI->header('text/calendar');

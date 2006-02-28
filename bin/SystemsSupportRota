@@ -1,56 +1,145 @@
-== 'On Call' and RT Rota
+[[Category:Systems]]
 
-See SystemOnCallGuidlines and SystemsRTGuidelines
 
-This can be subscribed to using the url: webcal://intranet.work.fotango.com/rota_ical.cgi
-which will give you the On Call schedule but not the RT schedule
+== 'On Call' and RT Rota ==
 
-| Date | Systems Person | RT Person |
-| Sat 8/10 | Dean + Bruce |
-| Sun 9/10 | Adam + Brad |
-| Mon 10/10 | Richard | Bruce |
-| Tue 11/10 | Dean | Dean |
-| Wed 12/10 | Bruce | Adam |
-| Thu 13/10 | Dean | Bruce |
-| Fri 14/10 | Adam | Brad |
-| Sat 15/10 | Richard |
-| Sun 16/10 | Bruce |
-| Mon 17/10 | Brad | Richard |
-| Tue 18/10 | Adam + Bruce | Brad |
-| Wed 19/10 | Richard | Bruce |
-| Thu 20/10 | Bruce | Richard |
-| Fri 21/10 | Brad | Adam |
-| Sat 22/10 | Adam + Brad |
-| Sun 23/10 | Richard |
-| Mon 24/10 | Bruce | Brad |
-| Tue 25/10 | Richard | Dean |
-| Wed 26/10 | Adam + Richard | Adam |
-| Thu 27/10 | Brad | Bruce |
-| Fri 28/10 | Dean + Bruce | Brad |
-| Sat 29/10 | Bruce |
-| Sun 30/10 | Brad |
+See [[System On Call Guidlines]], [[Systems Incident Guidelines]] and [[Systems RTGuidelines]]
 
-== Rota team
+This can be subscribed to using the url: webcal://intranet.work.fotango.com/rota_ical.cgi which will give you the On Call schedule but not the RT schedule
 
-* BradRigden
-* RichardClamp
-* BruceRichardson
-* AdamBurns
-* DeanWilson
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+<blockquote>
+
+{| border="1"
+|- valign="top"
+| Date
+| on Call
+| watching RT
+|- valign="top"
+| Sat 28/1
+| Richard
+|- valign="top"
+| Sun 29/1
+| Richard
+|- valign="top"
+| Mon 30/1
+| Dean
+| Dean
+|- valign="top"
+| Tue 31/1
+| Bruce
+| Richard
+|- valign="top"
+| Wed 1/2
+| Adam
+| Bruce
+|- valign="top"
+| Thu 2/2
+| Richard
+| Adam
+|- valign="top"
+| Fri 3/2
+| Adam
+| Dean
+|- valign="top"
+| Sat 4/2
+| Dean
+|- valign="top"
+| Sun 5/2
+| Dean
+|- valign="top"
+| Mon 6/2
+| Dean
+| Bob
+|- valign="top"
+| Tue 7/2
+| Richard
+| Dean
+|- valign="top"
+| Wed 8/2
+| Bob
+| Adam
+|- valign="top"
+| Thu 9/2
+| Adam
+| Bruce
+|- valign="top"
+| Fri 10/2
+| Bruce
+| Richard
+|- valign="top"
+| Sat 11/2
+| Adam
+|- valign="top"
+| Sun 12/2
+| Adam
+|- valign="top"
+| Mon 13/2
+| Richard
+| Bob
+|- valign="top"
+| Tue 14/2
+| Bob
+| Dean
+|- valign="top"
+| Wed 15/2
+| Dean
+| Adam
+|- valign="top"
+| Thu 16/2
+| Adam
+| Bruce
+|- valign="top"
+| Fri 17/2
+| Bruce
+| Richard
+|- valign="top"
+| Sat 18/2
+| Bob
+|- valign="top"
+| Sun 19/2
+| Bob
+|- valign="top"
+| Mon 20/2
+| Richard
+| Bob
+|- valign="top"
+| Tue 21/2
+| Dean
+| Dean
+|- valign="top"
+| Wed 22/2
+| Bob
+| Adam
+|- valign="top"
+| Thu 23/2
+| Adam
+| Bruce
+|- valign="top"
+| Fri 24/2
+| Bruce
+| Richard
+|- valign="top"
+| Sat 25/2
+| Bruce
+|- valign="top"
+| Sun 26/2
+| Bruce
+|- valign="top"
+| Mon 27/2
+| Dean
+| Bob
+|- valign="top"
+| Tue 28/2
+| Richard
+| Dean
+|}
+
+</blockquote>
+
+== Rota team ==
+
+* [[Richard Clamp]] 
+* [[Bruce Richardson]] 
+* [[Adam Burns]] 
+* [[Dean Wilson]] 
+* [[BobWalker]]
