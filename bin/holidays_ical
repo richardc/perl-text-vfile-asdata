@@ -7,7 +7,7 @@ use Digest::MD5 qw(md5_hex);
 use DateTime;
 use CGI;
 
-my $file = -e 'Holidays' ? 'Holidays' : '/usr/local/apache/htdocs/intranet/database/Holidays';
+my $file = -e 'Holidays' ? 'Holidays' : 'http://intranet.fotango.private/index.php?title=Holidays&action=raw';
 
 =head1 NAME
 
@@ -22,11 +22,11 @@ which blech suggested might be good to have available as .ics.
 
 The page is structured roughly like so:
 
- = 2004
+ = 2004 =
 
- == February
+ == February ==
 
- * RichardClamp
+ * [[Richard Clamp]]
  ** 1st - 3rd Baying at the moon
 
 This script scrapes that page and makes it available as a vCalendar.
@@ -39,6 +39,18 @@ Richard Clamp <richardc@unixbeard.net>
 
 =cut
 
+
+# sometimes, we want to use a url so wrap read_file as get_lines
+sub get_lines {
+    my $file = shift;
+    if ($file =~ m{^https?://}) {
+        # s'really a url
+        require LWP::Simple;
+        my $content = LWP::Simple::get( $file );
+        return split $/, $content;
+    }
+    return read_file( $file );
+}
 
 # horrible stateful stuff, but easier than driving Template::Extract
 my ($year, $month, $who);
@@ -99,12 +111,13 @@ my $cal = {
     },
     objects => [],
 };
-for (read_file( $file )) {
+for (get_lines( $file )) {
     next if /^\s*$/;
-    /^= (.*)/   and do { $year  = $1; next };
-    /^== (.*)/  and do { $month = $1; next };
-    /^\* (.*)/  and do { $who   = $1; next };
-    /^\** (.*)/ and do {
+    /^= (.*) =/      and do { $year  = $1; next };
+    /^== (.*) ==/    and do { $month = $1; next };
+    /^\* \[\[(.*)\]\]/  and do { $who   = $1; next };
+    /^\*\* (.*)/ and do {
+        #print "year = $year, month = $month, event = $1\n";
         push @{ $cal->{objects} }, guesstimate_event( $1 );
         next;
     };
