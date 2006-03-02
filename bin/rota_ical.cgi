@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use File::Slurp;
 use Text::vFile::asData;
 use Digest::MD5 qw(md5_hex);
 use DateTime;
@@ -64,7 +63,8 @@ sub get_lines {
         my $content = LWP::Simple::get( $file );
         return split $/, $content;
     }
-    return read_file( $file );
+    require File::Slurp;
+    return File::Slurp::read_file( $file );
 }
 
 sub parse_tables {
