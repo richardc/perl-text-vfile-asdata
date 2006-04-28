@@ -74,7 +74,7 @@ sub parse_tables {
         /^{\|/ and do { $in_table = 1; next };
         /^\|}/ and do { $in_table = 0; next };
         next unless $in_table;
-        /^\|- / and do {
+        /^\|-/ and do {
             push @rows, [@row] if @row;
             @row = ();
             next;
