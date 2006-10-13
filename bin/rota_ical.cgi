@@ -17,17 +17,31 @@ rota_ical.cgi - scrape the SystemsSupportRota wiki page into ics
 =cut
 
 my @tasks;
+my %rrule;
 sub make_events {
     my $when = shift;
     my %who;
     @who{ @tasks } = @_;
 
     my $year = DateTime->now->year;
-    return unless $when =~ m{(\d+)\s*/\s*(\d+)};
-    my ($day, $month) = ($1, $2);
+    return unless $when =~ m{(\S+)\s+(\d+)\s*/\s*(\d+)};
+    my ($weekday, $day, $month) = ($1, $2, $3);
 
     my $start = DateTime->new( year => $year, month => $month, day  => $day );
     my $end   = $start->clone->add( days => 1 );
+
+    my $is_rrule;
+    if ($when =~ /From/) {
+        # establish an rrule for that weekday
+        push @{ $rrule{$weekday} }, {
+            start => $start->epoch,
+            map { $_ => md5_hex( "$when $who{$_} $_" ) } @tasks,
+        };
+        $is_rrule = 1;
+    }
+
+    # find the latest rrule that covers this date
+    my ($rrule) =  grep { $start->epoch >= $_->{start} } sort { $a->{start} <=> $b->{start} } @{ $rrule{ $weekday } || [] };
 
     return map +{
         type => 'VEVENT',
@@ -40,8 +54,9 @@ sub make_events {
             DTEND   => [ { value => $end->ymd(''),
                            param => { VALUE => 'DATE' },
                        } ],
-            UID     => [ { value => md5_hex( "$when $who{$_} $_" ),
-                       } ],
+            UID     => [ { value => $rrule ? $rrule->{ $_ } : md5_hex( "$when $who{$_} $_" ) } ],
+            ($is_rrule ? ( RRULE => [ { value => "FREQ=WEEKLY;INTERVAL=1" } ] )
+               : $rrule ? ( 'RECURRENCE-ID' => [ { param => { VALUE => "DATE" }, value => $start->ymd('') } ] ) : ()),
         },
     }, sort grep { $who{$_} } @tasks;
 }
