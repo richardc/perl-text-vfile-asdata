@@ -225,6 +225,23 @@ is_deeply( $p->parse_lines(
            },
            "quoted params colon in the value" );
 
+# Richard Russo points out this one
+is_deeply( $p->parse_lines( q{ORGANIZER;CN="Will O'the Wisp":William} ),
+           {
+               properties => {
+                   ORGANIZER => [
+                       {
+                           param  => {
+                               CN => "Will O'the Wisp",
+                           },
+                           value => 'William',
+                       },
+                   ],
+               },
+           },
+           "quoted param with embedded quote marks" );
+
+
 # Leo's corner case; you will sometimes have two params with the same
 # names (pesky vCards)
 is_deeply( $p->parse_lines( 'FOO;corner=fruit;corner=case:BAZ' ),

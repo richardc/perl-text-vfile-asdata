@@ -1,3 +1,6 @@
+HEAD
+	Fix case with ' in entities (Richard Russo)
+
 0.05	Saturday 25th June, 2005
 	Removed a leftover C<use YAML;> from t/parse_line.t (spotted by Leo)
 
