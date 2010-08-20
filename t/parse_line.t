@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
-use Test::More tests => 8;
+use Test::More;
 use Text::ParseWords ();
 use Text::vFile::asData ();
 
@@ -21,3 +21,5 @@ for my $string ( 'foo', 'foo:', 'foo:bar', 'foo:bar:' ) {
         same( ':', $keep, $string );
     }
 }
+
+done_testing();

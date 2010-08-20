@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 21;
+use Test::More;
 
 if (eval "require Test::Differences") {
     no warnings 'redefine';
@@ -270,3 +270,5 @@ my $data = $p->parse( $fh );
 ok( 1, "didn't segfault on parsing an embedded image" );
 ok( exists $data->{objects}[0]{properties}{PHOTO}[0]{param}{BASE64},
     "Looks like we handled the vcard too" );
+
+done_testing();

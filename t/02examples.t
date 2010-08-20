@@ -16,7 +16,6 @@ sub wanted {
 }
 
 my $class = 'Text::vFile::asData';
-plan tests => 1 + scalar @samples * 6;
 
 if (eval "require Test::Differences; 1") {
     no warnings 'redefine';
@@ -43,3 +42,5 @@ for my $preserve (0, 1) {
           };
     }
 }
+
+done_testing();

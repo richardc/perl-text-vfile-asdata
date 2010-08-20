@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More;
 
 # Show an example of API in use, and test it at the same time
 
@@ -29,6 +29,7 @@ is($data->{objects}->[0]->{properties}->{'PRODID'}->[0]->{value},
 my $e = $data->{objects}->[0]->{objects}->[0];
 is($e->{type}, 'VEVENT', 'First sub object is a VEVENT');
 
+done_testing();
 
 #  Local Variables:
 #  cperl-indent-level: 4
