@@ -268,26 +268,6 @@ Copyright 2004, Richard Clamp and Nik Clayton.  All Rights Reserved.
 This program is free software; you can redistribute it
 and/or modify it under the same terms as Perl itself.
 
-=head1 TODO
-
-=over
-
-=item
-
-More comprehensive tests, especially for the nacsent generate routine.
-
-=item
-
-Write some higher-level modules that use this to create DateTime::*
-objects via DateTime::Format::ICal and DateTime::Event::ICal for
-vCalendar handling.
-
-=item
-
-Take over the world.
-
-=back
-
 =head1 CAVEATS
 
 We don't do any decoding of property values, including descaping
