@@ -1,0 +1,7 @@
+Build
+_build
+blib
+MYMETA.yml
+META.yml
+Makefile.PL
+Text-vFile-asData-*

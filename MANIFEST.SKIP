@@ -1,5 +1,6 @@
 CVS/.*
 \.svn/.*
+^.git
 \.cvsignore$
 \.Inline/.*
 _Inline/.*
@@ -18,3 +19,5 @@ _Inline/.*
 ^pm_to_blib$
 ^_build/.*
 ~$
+^MYMETA.yml$
+^Text-vFile-asData-
