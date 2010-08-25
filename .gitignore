@@ -1,7 +1,6 @@
-Build
-_build
-blib
 MYMETA.yml
 META.yml
-Makefile.PL
 Text-vFile-asData-*
+Makefile
+pm_to_blib
+blib

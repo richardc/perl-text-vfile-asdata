@@ -1,7 +1,6 @@
 Changes
 META.yml
 Makefile.PL
-Build.PL
 MANIFEST
 MANIFEST.SKIP
 bin/rota_ical.cgi

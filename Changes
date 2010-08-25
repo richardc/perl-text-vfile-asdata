@@ -1,3 +1,7 @@
+HEAD
+        Switch to ExtUtils::MakeMaker as Module::Build got
+        uppity and started generating bad Makefile.PL files
+
 0.06	Friday 20th August, 2010
 	Fix case with ' in entities (Richard Russo)
 
