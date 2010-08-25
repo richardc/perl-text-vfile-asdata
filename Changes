@@ -1,4 +1,4 @@
-HEAD
+0.07    Wednesday 25th August, 2010
         Switch to ExtUtils::MakeMaker as Module::Build got
         uppity and started generating bad Makefile.PL files
 
