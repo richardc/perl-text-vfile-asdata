@@ -1,3 +1,8 @@
+HEAD
+        Merge fix from Ashley Willis - Only " should get special
+        treatment as a quote character.
+        https://github.com/richardc/perl-text-vfile-asdata/pull/1
+
 0.07    Wednesday 25th August, 2010
         Switch to ExtUtils::MakeMaker as Module::Build got
         uppity and started generating bad Makefile.PL files
