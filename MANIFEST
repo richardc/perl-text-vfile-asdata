@@ -1,5 +1,6 @@
 Changes
 META.yml
+META.json
 Makefile.PL
 MANIFEST
 MANIFEST.SKIP
