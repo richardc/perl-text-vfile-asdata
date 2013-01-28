@@ -4,7 +4,7 @@ use warnings;
 no warnings 'uninitialized';
 use base qw( Class::Accessor::Chained::Fast );
 __PACKAGE__->mk_accessors(qw( preserve_params ));
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 =head1 NAME
 
@@ -263,7 +263,7 @@ Richard Clamp <richardc@unixbeard.net> and Nik Clayton <nik@FreeBSD.org>
 
 =head1 COPYRIGHT
 
-Copyright 2004, Richard Clamp and Nik Clayton.  All Rights Reserved.
+Copyright 2004, 2010, 2013 Richard Clamp and Nik Clayton.  All Rights Reserved.
 
 This program is free software; you can redistribute it
 and/or modify it under the same terms as Perl itself.

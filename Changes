@@ -1,4 +1,4 @@
-HEAD
+0.08    Monday 28th January, 2013
         Merge fix from Ashley Willis - Only " should get special
         treatment as a quote character.
         https://github.com/richardc/perl-text-vfile-asdata/pull/1
