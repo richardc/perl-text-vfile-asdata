@@ -16,11 +16,14 @@ Text::vFile::asData - parse vFile formatted files into data structures
   open my $fh, "foo.ics"
     or die "couldn't open ics: $!";
   my $data = Text::vFile::asData->new->parse( $fh );
+  my $datafromarray = Text::vFile::asData->new->parse_array( @icalasarray );
 
 =head1 DESCRIPTION
 
 Text::vFile::asData reads vFile format files, such as vCard (RFC 2426) and
-vCalendar (RFC 2445).
+vCalendar (RFC 2445). If you have the data in a variable (as in crawling a site 
+with LWP or MUA and don't need to save the ical file), 
+pass the lines as an array through parse_array().
 
 =cut
 
@@ -44,6 +47,11 @@ sub parse {
     my $self = shift;
     my $fh = shift;
     return $self->parse_lines( <$fh> );
+}
+
+sub parse_array {
+    my $self = shift;
+    return $self->parse_lines( @_ );
 }
 
 # like Text::ParseWords' parse_line, only C-style so the regex engine doesn't
