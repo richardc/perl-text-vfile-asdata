@@ -17,6 +17,9 @@ Text::vFile::asData - parse vFile formatted files into data structures
     or die "couldn't open ics: $!";
   my $data = Text::vFile::asData->new->parse( $fh );
 
+  my $data = Text::vFile::asData->new->parse_lines(
+    @vtext_lines_split_to_array );
+
 =head1 DESCRIPTION
 
 Text::vFile::asData reads vFile format files, such as vCard (RFC 2426) and
